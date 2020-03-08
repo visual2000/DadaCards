@@ -81,7 +81,13 @@ Private Sub mnuGameQuit_Click()
     Set frmMain = Nothing
 End Sub
 
+Private Sub ucCard_DblClick(Index As Integer)
+    ucCard(Index).Flip
+    
+End Sub
+
 Private Sub ucCard_MouseDown(Index As Integer, Button As Integer, Shift As Integer, X As Single, Y As Single)
+    ucCard(Index).ZOrder (0)
     dragging(Index) = True
     cardOriginLeft = ucCard(Index).Left
     cardOriginTop = ucCard(Index).Top

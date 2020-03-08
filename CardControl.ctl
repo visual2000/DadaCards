@@ -25,8 +25,12 @@ Option Explicit
 Public Event MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
 Public Event MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
 Public Event MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Public Event Click()
+Public Event DblClick()
 
 Private myCard As Card
+
+Public dragging As Boolean
 
 Public pxWidth As Integer
 Public pxHeight As Integer
@@ -41,6 +45,14 @@ Public Property Let Card(ByVal Value As Face)
     Call DrawMyself
     
 End Property
+
+Private Sub imgCard_Click()
+    RaiseEvent Click
+End Sub
+
+Private Sub imgCard_DblClick()
+    RaiseEvent DblClick
+End Sub
 
 Private Sub UserControl_Initialize()
     Set myCard = New Card
@@ -57,11 +69,14 @@ Private Sub UserControl_Initialize()
     imgCard.Width = pxWidth
     imgCard.Height = pxHeight
     
+    dragging = False
+
     Call DrawMyself
 End Sub
 
 ''' Pass along the events as appropriate!
 Private Sub imgCard_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    dragging = True
     RaiseEvent MouseDown(Button, Shift, X, Y)
 End Sub
 
@@ -70,6 +85,8 @@ Private Sub imgCard_MouseMove(Button As Integer, Shift As Integer, X As Single, 
 End Sub
 
 Private Sub imgCard_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    dragging = False
+    ' if haveMoved, don't raise click?
     RaiseEvent MouseUp(Button, Shift, X, Y)
 End Sub
 
@@ -77,13 +94,12 @@ Public Sub Flip()
     ' flip the card!
     myCard.faceDown = Not myCard.faceDown
     Call DrawMyself
-    
 End Sub
 
 Private Sub DrawMyself()
     If myCard.faceDown Then
         ' Show the generic "card back" picture.
-        ' imgcard.Picture =
+        imgCard.Picture = LoadResPicture(201, vbResBitmap)
     Else
         imgCard.Picture = LoadResPicture(myCard.imgResourceId, vbResBitmap)
     End If
