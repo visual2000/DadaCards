@@ -1,7 +1,7 @@
 VERSION 5.00
 Begin VB.Form frmMain 
    BackColor       =   &H00008000&
-   Caption         =   "Dadaist card game"
+   Caption         =   "Nihilistic card game"
    ClientHeight    =   10995
    ClientLeft      =   165
    ClientTop       =   735
