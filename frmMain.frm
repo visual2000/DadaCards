@@ -79,7 +79,6 @@ Dim dragging(0 To nrOfCards - 1) As Boolean
 Dim cardOriginLeft As Integer, cardOriginTop As Integer
 Dim dragStartX As Integer, dragStartY As Integer
 
-
 Private Sub cmdSweep_Click()
     Dim i As Integer
     Dim offset As Integer
@@ -150,7 +149,6 @@ End Sub
 
 Private Sub mnuGameReset_Click()
     Call PlaceCards
-    
 End Sub
 
 Private Sub mnuToolsFlipAll_Click()
@@ -169,7 +167,6 @@ End Sub
 
 Private Sub ucCard_DblClick(Index As Integer)
     ucCard(Index).Flip
-    
 End Sub
 
 Private Sub ucCard_MouseDown(Index As Integer, Button As Integer, Shift As Integer, X As Single, Y As Single)
@@ -179,7 +176,6 @@ Private Sub ucCard_MouseDown(Index As Integer, Button As Integer, Shift As Integ
     cardOriginTop = ucCard(Index).Top
     dragStartX = X
     dragStartY = Y
-    
 End Sub
 
 Private Sub ucCard_MouseMove(Index As Integer, Button As Integer, Shift As Integer, X As Single, Y As Single)
