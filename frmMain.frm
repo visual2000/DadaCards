@@ -120,8 +120,8 @@ Private Sub PlaceCards()
             ucCard(i).Left = Int(Rnd * maxX)
             ucCard(i).Top = Int(Rnd * maxY)
         Else
-            ucCard(0).Left = 0
-            ucCard(0).Top = 0
+            ucCard(0).Left = 240
+            ucCard(0).Top = 600
             ucCard(i).Left = (i Mod 13) * ucCard(i).Width + ucCard(0).Left
             ucCard(i).Top = Int(i / 13) * ucCard(i).Height + ucCard(0).Top
         End If
