@@ -37,13 +37,20 @@ Public pxHeight As Integer
 
 Public Property Get Card() As Face
   Card = myCard.Face
-  
 End Property
 
 Public Property Let Card(ByVal Value As Face)
     myCard.Face = Value
     Call DrawMyself
-    
+End Property
+
+Public Property Get faceDown() As Boolean
+  faceDown = myCard.faceDown
+End Property
+
+Public Property Let faceDown(ByVal Value As Boolean)
+    myCard.faceDown = Value
+    Call DrawMyself
 End Property
 
 Private Sub imgCard_Click()

@@ -26,6 +26,9 @@ Begin VB.Form frmMain
          Caption         =   "Reset"
          Shortcut        =   ^R
       End
+      Begin VB.Menu mSep1 
+         Caption         =   "-"
+      End
       Begin VB.Menu mnuGameQuit 
          Caption         =   "&Quit"
          Shortcut        =   ^Q
@@ -37,8 +40,21 @@ Begin VB.Form frmMain
          Caption         =   "Randomly"
          Checked         =   -1  'True
       End
-      Begin VB.Menu mnuDealRegularly 
-         Caption         =   "Regularly"
+      Begin VB.Menu mSep2 
+         Caption         =   "-"
+      End
+      Begin VB.Menu mnuDealFaceup 
+         Caption         =   "Face up"
+         Checked         =   -1  'True
+      End
+   End
+   Begin VB.Menu mnuTools 
+      Caption         =   "Tools"
+      Begin VB.Menu mnuToolsHide 
+         Caption         =   "Hide all"
+      End
+      Begin VB.Menu mnuToolsFlipAll 
+         Caption         =   "Flip all"
       End
    End
 End
@@ -77,29 +93,28 @@ Private Sub PlaceCards()
     
     For i = 0 To nrOfCards - 1
     
-        If mnuDealRegularly.Checked Then
+        If mnuDealRandomly.Checked Then
+            ucCard(i).Left = Int(Rnd * maxX)
+            ucCard(i).Top = Int(Rnd * maxY)
+        Else
             ucCard(0).Left = 0
             ucCard(0).Top = 0
             ucCard(i).Left = (i Mod 13) * ucCard(i).Width + ucCard(0).Left
             ucCard(i).Top = Int(i / 13) * ucCard(i).Height + ucCard(0).Top
-        ElseIf mnuDealRandomly.Checked Then
-            ucCard(i).Left = Int(Rnd * maxX)
-            ucCard(i).Top = Int(Rnd * maxY)
         End If
                 
         ucCard(i).Visible = True
+        ucCard(i).faceDown = Not mnuDealFaceup.Checked
         ucCard(i).Card = i + 1
     Next i
 End Sub
 
 Private Sub mnuDealRandomly_Click()
     mnuDealRandomly.Checked = Not mnuDealRandomly.Checked
-    mnuDealRegularly.Checked = Not mnuDealRandomly.Checked
 End Sub
 
-Private Sub mnuDealRegularly_Click()
-    mnuDealRegularly.Checked = Not mnuDealRegularly.Checked
-    mnuDealRandomly.Checked = Not mnuDealRegularly.Checked
+Private Sub mnuDealFaceup_Click()
+    mnuDealFaceup.Checked = Not mnuDealFaceup.Checked
 End Sub
 
 Private Sub mnuGameQuit_Click()
@@ -110,6 +125,20 @@ End Sub
 Private Sub mnuGameReset_Click()
     Call PlaceCards
     
+End Sub
+
+Private Sub mnuToolsFlipAll_Click()
+    Dim c As CardControl
+    For Each c In ucCard
+        c.faceDown = Not c.faceDown
+    Next c
+End Sub
+
+Private Sub mnuToolsHide_Click()
+    Dim c As CardControl
+    For Each c In ucCard
+        c.faceDown = True
+    Next c
 End Sub
 
 Private Sub ucCard_DblClick(Index As Integer)
