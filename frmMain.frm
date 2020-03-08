@@ -46,16 +46,30 @@ Dim cardOriginLeft As Integer, cardOriginTop As Integer
 Dim dragStartX As Integer, dragStartY As Integer
 
 Private Sub Form_Initialize()
+    Randomize
     Dim i As Integer
-    
     For i = 0 To nrOfCards - 1
         dragging(i) = False
         
         If Not i = 0 Then
             Load ucCard(i)
         End If
+    Next i
+    
+    Call PlaceCards
+End Sub
+
+Private Sub PlaceCards()
+    Dim i As Integer
+    Dim maxX As Integer, maxY As Integer
+    maxX = frmMain.ScaleWidth - ucCard(0).Width
+    maxY = frmMain.ScaleHeight - ucCard(0).Height
+    
+    For i = 0 To nrOfCards - 1
+        'ucCard(i).Left = i * ucCard(i).Width + ucCard(0).Left
+        ucCard(i).Left = Int(Rnd * maxX)
+        ucCard(i).Top = Int(Rnd * maxY)
         
-        ucCard(i).Left = i * ucCard(i).Width + ucCard(0).Left
         ucCard(i).Visible = True
         
         ucCard(i).Card = i + 1
