@@ -8,9 +8,8 @@ Begin VB.Form frmMain
    ClientWidth     =   15315
    Icon            =   "frmMain.frx":0000
    LinkTopic       =   "Form1"
-   ScaleHeight     =   733
-   ScaleMode       =   3  'Pixel
-   ScaleWidth      =   1021
+   ScaleHeight     =   10995
+   ScaleWidth      =   15315
    StartUpPosition =   3  'Windows Default
    Begin DadaCards.CardControl ucCard 
       Height          =   1440
@@ -42,11 +41,15 @@ Option Explicit
 
 Const nrOfCards = 52
 
+Dim dragging(0 To nrOfCards - 1) As Boolean
+Dim cardOriginLeft As Integer, cardOriginTop As Integer
+Dim dragStartX As Integer, dragStartY As Integer
+
 Private Sub Form_Initialize()
     Dim i As Integer
     
-    
     For i = 0 To nrOfCards - 1
+        dragging(i) = False
         
         If Not i = 0 Then
             Load ucCard(i)
@@ -56,7 +59,6 @@ Private Sub Form_Initialize()
         ucCard(i).Visible = True
         
         ucCard(i).Card = i + 1
-        
     Next i
 End Sub
 
@@ -65,3 +67,27 @@ Private Sub mnuGameQuit_Click()
     Set frmMain = Nothing
 End Sub
 
+Private Sub ucCard_MouseDown(Index As Integer, Button As Integer, Shift As Integer, X As Single, Y As Single)
+    dragging(Index) = True
+    cardOriginLeft = ucCard(Index).Left
+    cardOriginTop = ucCard(Index).Top
+    dragStartX = X
+    dragStartY = Y
+    
+End Sub
+
+Private Sub ucCard_MouseMove(Index As Integer, Button As Integer, Shift As Integer, X As Single, Y As Single)
+    If dragging(Index) Then
+        ucCard(Index).Left = cardOriginLeft + X - dragStartX
+        ucCard(Index).Top = cardOriginTop + Y - dragStartY
+        cardOriginLeft = ucCard(Index).Left
+        cardOriginTop = ucCard(Index).Top
+    End If
+End Sub
+
+Private Sub ucCard_MouseUp(Index As Integer, Button As Integer, Shift As Integer, X As Single, Y As Single)
+    Dim i As Integer
+    For i = 0 To nrOfCards - 1
+        dragging(i) = False
+    Next i
+End Sub
