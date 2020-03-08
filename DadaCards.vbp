@@ -1,7 +1,9 @@
 Type=Exe
 Form=frmMain.frm
 Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#C:\WINNT\system32\stdole2.tlb#OLE Automation
-ResFile32="\\VBOXSVR\Public\DadaCards\Cards.RES"
+UserControl=CardControl.ctl
+Class=Card; Card.cls
+ResFile32="Cards.RES"
 IconForm="frmMain"
 Startup="frmMain"
 Command32=""
