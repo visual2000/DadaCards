@@ -88,7 +88,7 @@ Public Property Get imgResourceId() As Integer
 End Property
 
 Private Sub Class_Initialize()
-    faceDown = True
+    faceDown = False
     
     ' Default to first card value.
     Face = Club_Ace

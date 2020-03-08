@@ -45,17 +45,15 @@ Const nrOfCards = 52
 Private Sub Form_Initialize()
     Dim i As Integer
     
-    ucCard(0).Card = Club_Four
-    
-    
-    
-    
-    Exit Sub
+    ucCard(0).Card = Club_Two
+    'Exit Sub
     
     For i = 1 To nrOfCards - 1
         Load ucCard(i)
+        ucCard(i).Left = i * ucCard(i).Width + ucCard(0).Left
+        ucCard(i).Visible = True
+        
     Next i
-    
 End Sub
 
 Private Sub mnuGameQuit_Click()
