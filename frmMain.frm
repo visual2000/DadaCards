@@ -82,9 +82,12 @@ Dim dragStartX As Integer, dragStartY As Integer
 
 Private Sub cmdSweep_Click()
     Dim i As Integer
+    Dim offset As Integer
+    offset = 20
+    
     For i = 0 To nrOfCards - 1
-        ucCard(i).Left = 120
-        ucCard(i).Top = 120
+        ucCard(i).Left = 120 + (Rnd * i) * offset
+        ucCard(i).Top = 120 + (Rnd * i) * offset
     Next i
     
     If mnuDealRandomly.Checked Then
