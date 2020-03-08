@@ -8,12 +8,6 @@ Begin VB.UserControl CardControl
    ClientWidth     =   4800
    ScaleHeight     =   3600
    ScaleWidth      =   4800
-   Begin VB.Image imgCard 
-      Height          =   1455
-      Left            =   600
-      Top             =   840
-      Width           =   2415
-   End
 End
 Attribute VB_Name = "CardControl"
 Attribute VB_GlobalNameSpace = False
@@ -53,11 +47,11 @@ Public Property Let faceDown(ByVal Value As Boolean)
     Call DrawMyself
 End Property
 
-Private Sub imgCard_Click()
+Private Sub UserControl_Click()
     RaiseEvent Click
 End Sub
 
-Private Sub imgCard_DblClick()
+Private Sub UserControl_DblClick()
     RaiseEvent DblClick
 End Sub
 
@@ -70,31 +64,12 @@ Private Sub UserControl_Initialize()
     Width = ScaleX(pxWidth, vbPixels, vbTwips)
     Height = ScaleY(pxHeight, vbPixels, vbTwips)
     ScaleMode = ScaleModeConstants.vbPixels
-    
-    imgCard.Left = 0
-    imgCard.Top = 0
-    imgCard.Width = pxWidth
-    imgCard.Height = pxHeight
+    MaskColor = &HDFFFFF
+    MaskPicture = LoadResPicture(101, vbResBitmap)
     
     dragging = False
 
     Call DrawMyself
-End Sub
-
-''' Pass along the events as appropriate!
-Private Sub imgCard_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
-    dragging = True
-    RaiseEvent MouseDown(Button, Shift, X, Y)
-End Sub
-
-Private Sub imgCard_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
-    RaiseEvent MouseMove(Button, Shift, X, Y)
-End Sub
-
-Private Sub imgCard_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
-    dragging = False
-    ' if haveMoved, don't raise click?
-    RaiseEvent MouseUp(Button, Shift, X, Y)
 End Sub
 
 Public Sub Flip()
@@ -106,10 +81,24 @@ End Sub
 Private Sub DrawMyself()
     If myCard.faceDown Then
         ' Show the generic "card back" picture.
-        imgCard.Picture = LoadResPicture(201, vbResBitmap)
+        Picture = LoadResPicture(201, vbResBitmap)
     Else
-        imgCard.Picture = LoadResPicture(myCard.imgResourceId, vbResBitmap)
+        Picture = LoadResPicture(myCard.imgResourceId, vbResBitmap)
     End If
-    
-    
+End Sub
+
+''' Pass along the events as appropriate!
+Private Sub UserControl_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    dragging = True
+    RaiseEvent MouseDown(Button, Shift, X, Y)
+End Sub
+
+Private Sub UserControl_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    RaiseEvent MouseMove(Button, Shift, X, Y)
+End Sub
+
+Private Sub UserControl_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    dragging = False
+    ' if haveMoved, don't raise click?
+    RaiseEvent MouseUp(Button, Shift, X, Y)
 End Sub
