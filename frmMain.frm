@@ -5,12 +5,20 @@ Begin VB.Form frmMain
    ClientHeight    =   10995
    ClientLeft      =   165
    ClientTop       =   735
-   ClientWidth     =   15315
+   ClientWidth     =   15360
    Icon            =   "frmMain.frx":0000
    LinkTopic       =   "Form1"
    ScaleHeight     =   10995
-   ScaleWidth      =   15315
+   ScaleWidth      =   15360
    StartUpPosition =   3  'Windows Default
+   Begin VB.CommandButton cmdSweep 
+      Caption         =   "Sweep into pile"
+      Height          =   375
+      Left            =   13920
+      TabIndex        =   0
+      Top             =   120
+      Width           =   1335
+   End
    Begin DadaCards.CardControl ucCard 
       Height          =   1440
       Index           =   0
@@ -70,6 +78,21 @@ Const nrOfCards = 52
 Dim dragging(0 To nrOfCards - 1) As Boolean
 Dim cardOriginLeft As Integer, cardOriginTop As Integer
 Dim dragStartX As Integer, dragStartY As Integer
+
+
+Private Sub cmdSweep_Click()
+    Dim i As Integer
+    For i = 0 To nrOfCards - 1
+        ucCard(i).Left = 120
+        ucCard(i).Top = 120
+    Next i
+    
+    If mnuDealRandomly.Checked Then
+        For i = 0 To 1000
+            ucCard(Int(Rnd * 52)).ZOrder (0)
+        Next i
+    End If
+End Sub
 
 Private Sub Form_Initialize()
     Randomize
