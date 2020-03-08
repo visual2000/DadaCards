@@ -90,4 +90,6 @@ End Property
 Private Sub Class_Initialize()
     faceDown = True
     
+    ' Default to first card value.
+    Face = Club_Ace
 End Sub

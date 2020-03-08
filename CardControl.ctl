@@ -28,6 +28,9 @@ Public Event MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Sing
 
 Private myCard As Card
 
+Public pxWidth As Integer
+Public pxHeight As Integer
+
 Public Property Get Card() As Face
   Card = myCard.Face
   
@@ -42,16 +45,18 @@ End Property
 Private Sub UserControl_Initialize()
     Set myCard = New Card
     
-    Width = ScaleX(72, vbPixels, vbTwips)
-    Height = ScaleY(96, vbPixels, vbTwips)
+    pxWidth = LoadResPicture(101, vbResBitmap).Width
+    pxHeight = LoadResPicture(101, vbResBitmap).Height
+    
+    Width = ScaleX(pxWidth, vbPixels, vbTwips)
+    Height = ScaleY(pxHeight, vbPixels, vbTwips)
     ScaleMode = ScaleModeConstants.vbPixels
     
     imgCard.Left = 0
     imgCard.Top = 0
-    imgCard.Width = 72
-    imgCard.Height = 96
+    imgCard.Width = pxWidth
+    imgCard.Height = pxHeight
     
-    imgCard.Picture = LoadResPicture(101, vbResBitmap)
     
     
 End Sub
