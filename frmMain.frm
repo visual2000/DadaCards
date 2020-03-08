@@ -14,8 +14,8 @@ Begin VB.Form frmMain
    Begin DadaCards.CardControl ucCard 
       Height          =   1440
       Index           =   0
-      Left            =   2160
-      Top             =   1080
+      Left            =   120
+      Top             =   120
       Width           =   1080
       _ExtentX        =   1905
       _ExtentY        =   2540
@@ -29,6 +29,16 @@ Begin VB.Form frmMain
       Begin VB.Menu mnuGameQuit 
          Caption         =   "&Quit"
          Shortcut        =   ^Q
+      End
+   End
+   Begin VB.Menu mnuDealing 
+      Caption         =   "Card dealing"
+      Begin VB.Menu mnuDealRandomly 
+         Caption         =   "Randomly"
+         Checked         =   -1  'True
+      End
+      Begin VB.Menu mnuDealRegularly 
+         Caption         =   "Regularly"
       End
    End
 End
@@ -66,19 +76,40 @@ Private Sub PlaceCards()
     maxY = frmMain.ScaleHeight - ucCard(0).Height
     
     For i = 0 To nrOfCards - 1
-        'ucCard(i).Left = i * ucCard(i).Width + ucCard(0).Left
-        ucCard(i).Left = Int(Rnd * maxX)
-        ucCard(i).Top = Int(Rnd * maxY)
-        
+    
+        If mnuDealRegularly.Checked Then
+            ucCard(0).Left = 0
+            ucCard(0).Top = 0
+            ucCard(i).Left = (i Mod 13) * ucCard(i).Width + ucCard(0).Left
+            ucCard(i).Top = Int(i / 13) * ucCard(i).Height + ucCard(0).Top
+        ElseIf mnuDealRandomly.Checked Then
+            ucCard(i).Left = Int(Rnd * maxX)
+            ucCard(i).Top = Int(Rnd * maxY)
+        End If
+                
         ucCard(i).Visible = True
-        
         ucCard(i).Card = i + 1
     Next i
+End Sub
+
+Private Sub mnuDealRandomly_Click()
+    mnuDealRandomly.Checked = Not mnuDealRandomly.Checked
+    mnuDealRegularly.Checked = Not mnuDealRandomly.Checked
+End Sub
+
+Private Sub mnuDealRegularly_Click()
+    mnuDealRegularly.Checked = Not mnuDealRegularly.Checked
+    mnuDealRandomly.Checked = Not mnuDealRegularly.Checked
 End Sub
 
 Private Sub mnuGameQuit_Click()
     Unload frmMain
     Set frmMain = Nothing
+End Sub
+
+Private Sub mnuGameReset_Click()
+    Call PlaceCards
+    
 End Sub
 
 Private Sub ucCard_DblClick(Index As Integer)
