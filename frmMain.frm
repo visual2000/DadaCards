@@ -45,13 +45,17 @@ Const nrOfCards = 52
 Private Sub Form_Initialize()
     Dim i As Integer
     
-    ucCard(0).Card = Club_Two
-    'Exit Sub
     
-    For i = 1 To nrOfCards - 1
-        Load ucCard(i)
+    For i = 0 To nrOfCards - 1
+        
+        If Not i = 0 Then
+            Load ucCard(i)
+        End If
+        
         ucCard(i).Left = i * ucCard(i).Width + ucCard(0).Left
         ucCard(i).Visible = True
+        
+        ucCard(i).Card = i + 1
         
     Next i
 End Sub
