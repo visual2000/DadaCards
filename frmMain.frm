@@ -6,15 +6,20 @@ Begin VB.Form frmMain
    ClientLeft      =   165
    ClientTop       =   735
    ClientWidth     =   15315
+   Icon            =   "frmMain.frx":0000
    LinkTopic       =   "Form1"
-   ScaleHeight     =   10995
-   ScaleWidth      =   15315
+   ScaleHeight     =   733
+   ScaleMode       =   3  'Pixel
+   ScaleWidth      =   1021
    StartUpPosition =   3  'Windows Default
-   Begin VB.Image Image1 
-      Height          =   2175
-      Left            =   480
-      Top             =   600
-      Width           =   2535
+   Begin DadaCards.CardControl ucCard 
+      Height          =   1440
+      Index           =   0
+      Left            =   2160
+      Top             =   1080
+      Width           =   1080
+      _ExtentX        =   1905
+      _ExtentY        =   2540
    End
    Begin VB.Menu mnuGame 
       Caption         =   "&Game"
@@ -34,54 +39,27 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
-Dim dragging As Boolean
-Dim originalLeft As Integer, originalTop As Integer
-Dim startDragX As Integer, startDragY As Integer
 
+Const nrOfCards = 52
 
-Private Sub Form_Load()
-    Image1.Picture = LoadResPicture(101, vbResBitmap)
-    dragging = False
+Private Sub Form_Initialize()
+    Dim i As Integer
+    
+    ucCard(0).Card = Club_Four
+    
+    
+    
+    
+    Exit Sub
+    
+    For i = 1 To nrOfCards - 1
+        Load ucCard(i)
+    Next i
     
 End Sub
-
-
-Private Sub Form_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
-    'Debug.Print ("mouse move " + CStr(X) + "x" + CStr(Y))
-    
-End Sub
-
-Private Sub Image1_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
-    '' todo only react on mouse-button-1
-    'Debug.Print "mouse down"
-    dragging = True
-    originalLeft = Image1.Left
-    originalTop = Image1.Top
-    startDragX = X
-    startDragY = Y
-        
-
-End Sub
-
-Private Sub Image1_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
-    Debug.Print ("mouse move " + CStr(X) + "x" + CStr(Y))
-    
-    If dragging Then
-        Image1.Left = originalLeft + X - startDragX
-        Image1.Top = originalTop + Y - startDragY
-        originalLeft = Image1.Left
-        originalTop = Image1.Top
-    End If
-End Sub
-
-Private Sub Image1_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
-    'Debug.Print ("mouse up")
-    dragging = False
-    
-End Sub
-
 
 Private Sub mnuGameQuit_Click()
     Unload frmMain
     Set frmMain = Nothing
 End Sub
+
