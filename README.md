@@ -6,4 +6,4 @@ fun.
 
 ![A homo sapiens plays with cards on a desktop computer](demo_nt4.gif)
 
-[Download](https://github.com/visual2000/DadaCards/blob/master/releases) our slickest game yet!
+[Download](https://github.com/visual2000/DadaCards/releases) our slickest game yet!
