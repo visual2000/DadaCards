@@ -11,7 +11,9 @@ fun.
 ## Testimonials
 
 > "I love the concept of this game"
->     -- somebody
+>
+> &nbsp;&nbsp;&nbsp;&nbsp;— somebody
 
 > "Not dissimilar to how toddlers play actual cards"
->     -- somebody else
+>
+> &nbsp;&nbsp;&nbsp;&nbsp;— somebody else
