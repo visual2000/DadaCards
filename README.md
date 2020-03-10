@@ -7,3 +7,11 @@ fun.
 ![A homo sapiens plays with cards on a desktop computer](demo_nt4.gif)
 
 [Download](https://github.com/visual2000/DadaCards/releases) our slickest game yet!
+
+## Testimonials
+
+> "I love the concept of this game"
+>     -- somebody
+
+> "Not dissimilar to how toddlers play actual cards"
+>     -- somebody else
