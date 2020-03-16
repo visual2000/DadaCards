@@ -1,4 +1,5 @@
 VERSION 5.00
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
 Begin VB.Form frmMain 
    BackColor       =   &H00008000&
    Caption         =   "Nihilistic card game"
@@ -11,6 +12,32 @@ Begin VB.Form frmMain
    ScaleHeight     =   10995
    ScaleWidth      =   15360
    StartUpPosition =   3  'Windows Default
+   Begin MSComctlLib.StatusBar statusScore 
+      Align           =   2  'Align Bottom
+      Height          =   255
+      Left            =   0
+      TabIndex        =   1
+      Top             =   10740
+      Width           =   15360
+      _ExtentX        =   27093
+      _ExtentY        =   450
+      SimpleText      =   "This is test text."
+      _Version        =   393216
+      BeginProperty Panels {8E3867A5-8586-11D1-B16A-00C0F0283628} 
+         NumPanels       =   1
+         BeginProperty Panel1 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
+         EndProperty
+      EndProperty
+      BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "System"
+         Size            =   9.75
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+   End
    Begin VB.CommandButton cmdSweep 
       Caption         =   "Sweep into pile"
       Height          =   375
@@ -75,9 +102,15 @@ Option Explicit
 
 Const nrOfCards = 52
 
+Dim score As Long
+
+Dim distanceBonus As Long
+
 Dim dragging(0 To nrOfCards - 1) As Boolean
 Dim cardOriginLeft As Integer, cardOriginTop As Integer
 Dim dragStartX As Integer, dragStartY As Integer
+
+Dim cardWasAtX As Integer, cardWasAtY As Integer
 
 Private Sub cmdSweep_Click()
     Dim i As Integer
@@ -94,6 +127,10 @@ Private Sub cmdSweep_Click()
             ucCard(Int(Rnd * 52)).ZOrder (0)
         Next i
     End If
+    
+    score = ((Rnd * 2) - 1) * 10000
+    Call showScore
+    
 End Sub
 
 Private Sub Form_Initialize()
@@ -107,7 +144,19 @@ Private Sub Form_Initialize()
         End If
     Next i
     
+    score = 0
+    
+    Call showScore
     Call PlaceCards
+End Sub
+
+Private Sub showScore()
+    statusScore.SimpleText = "Score: " & CStr(score)
+    statusScore.Panels(1).Text = "Score: " & CStr(score)
+    
+    'If score < 0 Then
+        'statusScore.panels(1).
+    
 End Sub
 
 Private Sub PlaceCards()
@@ -132,6 +181,10 @@ Private Sub PlaceCards()
         ucCard(i).faceDown = Not mnuDealFaceup.Checked
         ucCard(i).Card = i + 1
     Next i
+End Sub
+
+Private Sub Form_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    Call showScore
 End Sub
 
 Private Sub mnuDealRandomly_Click()
@@ -165,6 +218,8 @@ Private Sub mnuToolsHide_Click()
     Next c
 End Sub
 
+
+
 Private Sub ucCard_DblClick(Index As Integer)
     ucCard(Index).Flip
 End Sub
@@ -174,8 +229,11 @@ Private Sub ucCard_MouseDown(Index As Integer, Button As Integer, Shift As Integ
     dragging(Index) = True
     cardOriginLeft = ucCard(Index).Left
     cardOriginTop = ucCard(Index).Top
+    cardWasAtX = ucCard(Index).Left
+    cardWasAtY = ucCard(Index).Top
     dragStartX = X
     dragStartY = Y
+    distanceBonus = 0
 End Sub
 
 Private Sub ucCard_MouseMove(Index As Integer, Button As Integer, Shift As Integer, X As Single, Y As Single)
@@ -184,6 +242,8 @@ Private Sub ucCard_MouseMove(Index As Integer, Button As Integer, Shift As Integ
         ucCard(Index).Top = cardOriginTop + Y - dragStartY
         cardOriginLeft = ucCard(Index).Left
         cardOriginTop = ucCard(Index).Top
+        distanceBonus = ((cardWasAtX - ucCard(Index).Left) / 400) ^ 2 + ((cardWasAtY - ucCard(Index).Top) / 400) ^ 2
+        'statusScore.SimpleText = "distanceBonus = " & CStr(distanceBonus)
     End If
 End Sub
 
@@ -192,4 +252,8 @@ Private Sub ucCard_MouseUp(Index As Integer, Button As Integer, Shift As Integer
     For i = 0 To nrOfCards - 1
         dragging(i) = False
     Next i
+    
+    score = score + distanceBonus
+    Call showScore
+    distanceBonus = 0
 End Sub
